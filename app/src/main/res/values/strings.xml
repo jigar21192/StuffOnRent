@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Stuff On Rent</string>
+
+    <string name="emailid">Enter E-mail ID</string>
+    <string name="password">Enter Password</string>
+    <string name="fname">Enter First Name</string>
+    <string name="lname">Enter Last Name</string>
+    <string name="adrs">Enter Address</string>
+    <string name="cont">Enter Mobile Number</string>
+    <string name="con_password">Enter Confirm Password</string>
+
+    <!--button-->
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+
+</resources>
