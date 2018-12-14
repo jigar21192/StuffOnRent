@@ -9,11 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-
+    String url="https://chauhanviral36.000webhostapp.com/insert.php";
     EditText et_fname;
     EditText et_lname;
     EditText et_adrs;
@@ -43,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+
         setTitle("Register");
 
         register=findViewById(R.id.register);
@@ -58,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 fname = et_fname.getText().toString();
                 lname = et_lname.getText().toString();
@@ -115,10 +124,27 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Please Confirm Password.", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Intent l = new Intent(RegisterActivity.this, LoginActivity.class);
+
+                    StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+
+                    RequestQueue queue= Volley.newRequestQueue(RegisterActivity.this);
+                    queue.add(request);
+
+
+              /*      Intent l = new Intent(RegisterActivity.this, LoginActivity.class);
                     startActivity(l);
                     Toast.makeText(RegisterActivity.this, "Register Successfully." + fname, Toast.LENGTH_LONG).show();
-                }
+               */ }
             }
         });
 
