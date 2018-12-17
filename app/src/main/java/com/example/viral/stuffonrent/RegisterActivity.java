@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -16,11 +17,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
-    String url="https://chauhanviral36.000webhostapp.com/insert.php";
+
+    String url="https://chauhanviral36.000webhostapp.com/registration.php";
     EditText et_fname;
     EditText et_lname;
     EditText et_adrs;
@@ -129,22 +133,49 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
 
+                            if (response.trim().equals("success")){
+
+                                Intent l = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(l);
+                                Toast.makeText(RegisterActivity.this, "Register Successfully." + fname, Toast.LENGTH_LONG).show();
+
+                            }
+
+                            else {
+
+                                Toast.makeText(RegisterActivity.this, "Problem on Registration", Toast.LENGTH_SHORT).show();
+                            }
+
                         }
-                    }, new Response.ErrorListener() {
+                    },
+                    new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            Toast.makeText(RegisterActivity.this, "Connection Problem", Toast.LENGTH_SHORT).show();
+
                         }
-                    });
+                    }){
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String,String> param=new HashMap<>();
+                            param.put("first_name",fname);
+                            param.put("last_name",lname);
+                            param.put("Address",adrs);
+                            param.put("mobile_number",cont);
+                            param.put("e_mail",emailid);
+                            param.put("password",password);
+                            param.put("confirm_password",password);
+
+
+                            return param;
+                        }
+                    };
 
                     RequestQueue queue= Volley.newRequestQueue(RegisterActivity.this);
                     queue.add(request);
 
-
-              /*      Intent l = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(l);
-                    Toast.makeText(RegisterActivity.this, "Register Successfully." + fname, Toast.LENGTH_LONG).show();
-               */ }
+                    }
             }
         });
 

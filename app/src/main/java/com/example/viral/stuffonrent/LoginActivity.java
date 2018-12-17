@@ -10,6 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText et_emailid;
@@ -19,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String emailid;
     String password;
+    String url="https://chauhanviral36.000webhostapp.com/login.php";
 
     Button login;
 
@@ -39,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent l = new Intent(LoginActivity.this,RegisterActivity.class);
+                Intent l = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(l);
             }
         });
@@ -49,19 +61,54 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 emailid = et_emailid.getText().toString();
-                password=et_password.getText().toString();
+                password = et_password.getText().toString();
 
                 if (!emailid.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
                     Toast.makeText(LoginActivity.this, "Please Enter Valid Email Address.", Toast.LENGTH_SHORT).show();
-                }
-                else if (TextUtils.isEmpty(password)) {
+                } else if (TextUtils.isEmpty(password)) {
                     Toast.makeText(LoginActivity.this, "Please Enter Password.", Toast.LENGTH_LONG).show();
                 }
+                else {
 
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(i);
+                    StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
+                            if (response.trim().equals("success")) {
+
+                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(i);
+                            } else {
+
+                                Toast.makeText(LoginActivity.this, "Please Enter Correct Password", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            Toast.makeText(LoginActivity.this, "Connection Problem", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> param = new HashMap<>();
+                            param.put("email", emailid);
+                            param.put("password", password);
+
+
+                            return param;
+                        }
+                    };
+
+                    RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                    queue.add(request);
+
+                }
             }
         });
     }
+
 }
