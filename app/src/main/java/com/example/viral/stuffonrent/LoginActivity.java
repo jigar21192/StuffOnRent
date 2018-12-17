@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(i);
                             } else {
 
-                                Toast.makeText(LoginActivity.this, "Please Enter Correct Password", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Please Enter Correct E-mail Id or Password", Toast.LENGTH_SHORT).show();
                             }
 
                         }
