@@ -23,7 +23,7 @@ class MyAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                Packages packages = new Packages();
+                Packages_Frag packages = new Packages_Frag();
                 return packages;
             case 1:
                 Furnitures furnitures = new Furnitures();
