@@ -12,9 +12,9 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-public class Package_Adapter extends RecyclerView.Adapter<Package_Adapter.MyViewHolder> {
+public class Item_Adapter extends RecyclerView.Adapter<Item_Adapter.MyViewHolder> {
 
-    private List<Model_Package> model;
+    private List<Model_item> model;
     Context context;
 
 
@@ -34,7 +34,7 @@ public class Package_Adapter extends RecyclerView.Adapter<Package_Adapter.MyView
         }
 
     }
-    public Package_Adapter(List<Model_Package> model,Context context)
+    public Item_Adapter(List<Model_item> model, Context context)
     {
         this.model=model;
         this.context=context;
@@ -47,7 +47,7 @@ public class Package_Adapter extends RecyclerView.Adapter<Package_Adapter.MyView
     }
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Model_Package model_package=model.get(position);
+        Model_item model_package=model.get(position);
         holder.genre.setText(model_package.getName());
         if( context!= null ){
             Glide.with(context)

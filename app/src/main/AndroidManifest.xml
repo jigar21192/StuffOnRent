@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.viral.stuffonrent">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -25,7 +25,13 @@
         <activity android:name=".Furnitures" />
         <activity android:name=".Appliances" />
         <activity android:name=".Vehicles" />
-        <activity android:name=".Costume"></activity>
+        <activity android:name=".Costume" />
+        <activity android:name=".Upload" />
+        <activity android:name=".UploadPackages" />
+        <activity android:name=".UploadFurniture" />
+        <activity android:name=".UploadAppliances" />
+        <activity android:name=".UploadVehicles" />
+        <activity android:name=".UploadCostume"></activity>
     </application>
 
 </manifest>

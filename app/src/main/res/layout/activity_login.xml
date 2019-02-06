@@ -8,6 +8,13 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title="Login"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -24,7 +31,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="25dp"
+            android:paddingTop="80dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
 

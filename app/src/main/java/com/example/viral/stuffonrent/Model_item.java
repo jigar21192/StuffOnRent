@@ -1,6 +1,6 @@
 package com.example.viral.stuffonrent;
 
-public class Model_Package {
+public class Model_item {
     String name,image;
 
     public String getName() {

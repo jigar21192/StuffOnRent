@@ -35,12 +35,12 @@ import java.util.List;
  * Use the {@link Packages_Frag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Packages_Frag extends Fragment {
+public class Furniture_Frag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    RecyclerView rec_packages;
+    RecyclerView rec_furniture;
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
@@ -53,7 +53,7 @@ public class Packages_Frag extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Packages_Frag() {
+    public Furniture_Frag() {
         // Required empty public constructor
     }
 
@@ -89,40 +89,40 @@ public class Packages_Frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_packages, container, false);
+        View view =inflater.inflate(R.layout.fragment_furniture, container, false);
         list=new ArrayList<>();
 
-        rec_packages=view.findViewById(R.id.rec_packages);
+        rec_furniture=view.findViewById(R.id.rec_furniture);
 
         StringRequest request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
 
-                    try {
-                        JSONArray array=new JSONArray(response);
-                        for (int i = 0; i < array.length(); i++) {
+                try {
+                    JSONArray array=new JSONArray(response);
+                    for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
 
-                       name=obj.getString("title");
-                            image=obj.getString("image");
+                        name=obj.getString("title");
+                        image=obj.getString("image");
 
-                            Log.e("Res",">>>>>"+image);
+                        Log.e("Res",">>>>>"+image);
 
-                            Model_item model=new Model_item();
-                            model.setImage(image);
-                            model.setName(name);
+                        Model_item model=new Model_item();
+                        model.setImage(image);
+                        model.setName(name);
 
-                            list.add(model);
+                        list.add(model);
 
-                            }
+                    }
 
-                        adapter = new Item_Adapter(list,context);
-                        rec_packages.setHasFixedSize(true);
-                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-                        rec_packages.setLayoutManager(mLayoutManager);
-                        rec_packages.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-                        rec_packages.setAdapter(adapter);
+                    adapter = new Item_Adapter(list,context);
+                    rec_furniture.setHasFixedSize(true);
+                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
+                    rec_furniture.setLayoutManager(mLayoutManager);
+                    rec_furniture.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+                    rec_furniture.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,7 +153,7 @@ public class Packages_Frag extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-      this.context=context;
+        this.context=context;
     }
 
     @Override

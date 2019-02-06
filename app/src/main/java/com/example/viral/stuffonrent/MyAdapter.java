@@ -26,7 +26,7 @@ class MyAdapter extends FragmentPagerAdapter {
                 Packages_Frag packages = new Packages_Frag();
                 return packages;
             case 1:
-                Furnitures furnitures = new Furnitures();
+                Furniture_Frag furnitures = new Furniture_Frag();
                 return furnitures;
             case 2:
                 Appliances appliances = new Appliances();

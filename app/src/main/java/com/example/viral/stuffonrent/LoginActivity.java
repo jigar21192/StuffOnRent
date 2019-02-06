@@ -1,5 +1,6 @@
 package com.example.viral.stuffonrent;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText et_emailid;
     EditText et_password;
 
+    ProgressDialog pd;
+
     TextView txt_crtacc;
 
     String emailid;
@@ -41,6 +44,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         setTitle("Login");
+
+        pd=new ProgressDialog(LoginActivity.this);
+        pd.setMessage("Loading");
+        pd.setCancelable(false);
 
         et_emailid = findViewById(R.id.et_emailid);
         et_password = findViewById(R.id.et_password);
@@ -60,12 +67,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                pd.show();
+
                 emailid = et_emailid.getText().toString();
                 password = et_password.getText().toString();
 
                 if (!emailid.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
+
+                    pd.dismiss();
                     Toast.makeText(LoginActivity.this, "Please Enter Valid Email Address.", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(password)) {
+                }
+                else if (TextUtils.isEmpty(password)) {
+
+                    pd.dismiss();
                     Toast.makeText(LoginActivity.this, "Please Enter Password.", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -76,10 +90,14 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (response.trim().equals("success")) {
 
+                                pd.dismiss();
                                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                 startActivity(i);
-                            } else {
+                                finish();
+                            }
+                            else {
 
+                                pd.dismiss();
                                 Toast.makeText(LoginActivity.this, "Please Enter Correct E-mail Id or Password", Toast.LENGTH_SHORT).show();
                             }
 
@@ -88,8 +106,8 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            pd.dismiss();
                             Toast.makeText(LoginActivity.this, "Connection Problem", Toast.LENGTH_SHORT).show();
-
                         }
                     }) {
                         @Override
@@ -97,8 +115,6 @@ public class LoginActivity extends AppCompatActivity {
                             Map<String, String> param = new HashMap<>();
                             param.put("email", emailid);
                             param.put("password", password);
-
-
                             return param;
                         }
                     };
@@ -110,5 +126,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 }

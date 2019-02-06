@@ -1,5 +1,6 @@
 package com.example.viral.stuffonrent;
 
+import android.content.Intent;
 import android.graphics.Movie;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,9 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayout pagerDots;
     private int dotscount;
     private ImageView[] dots;
-    String url = "https://api.androidhive.info/json/movies.json";
-    String t;
-    String id, name, mobile;
+
 
 
 
@@ -51,78 +52,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-       /* recyclerView = (RecyclerView) findViewById(R.id.rec);
 
-        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-
-                try {
-                    JSONObject object = new JSONObject(response);
-                    JSONArray array = object.getJSONArray("movies");
-
-                    for (int i = 0; i < array.length(); i++) {
-                        JSONObject object1 = array.getJSONObject(i);
-
-                        id = object1.getString("title");
-                        name = object1.getString("genre");
-
-                        JSONObject phone = object1.getJSONObject("phone");
-                        mobile = phone.getString("releaseYear");
-
-                        Log.e("Res", ">>>>>>" + id + name + mobile);
-                        movie m = new movie();
-                        m.setTitle(id);
-                        m.setGender(name);
-                        m.setYear(mobile);
-                        movieList.add(m);
-
-
-                       *//* Base_Adapter adapter=new Base_Adapter(MainActivity.this,movieList);
-                        lv.setAdapter(adapter);
-*//*
-                    }
-                    mAdapter = new Movieadapter(movieList);
-                    recyclerView.setHasFixedSize(true);
-                    RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(HomeActivity.this);
-                    recyclerView.setLayoutManager(mLayoutManager);
-                    recyclerView.addItemDecoration(new DividerItemDecoration(HomeActivity.this, LinearLayoutManager.VERTICAL));
-                    recyclerView.setAdapter(mAdapter);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(HomeActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        RequestQueue queue = Volley.newRequestQueue(HomeActivity.this);
-        queue.add(request);
-
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);*/
-        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-                Toast.makeText(MainActivity.this, "Title=" + movieList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
 
         tabLayout = findViewById(R.id.tabLayout);
@@ -222,4 +154,30 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id){
+            case R.id.uploaditem:
+                Intent intent = new Intent(HomeActivity.this,Upload.class);
+                startActivity(intent);
+                return true;
+            case R.id.item2:
+                Toast.makeText(getApplicationContext(),"Item 2 Selected",Toast.LENGTH_LONG).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(getApplicationContext(),"Item 3 Selected",Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 }
