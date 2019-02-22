@@ -51,7 +51,7 @@
                             android:id="@+id/pac_img"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@drawable/combo"
                             android:layout_marginTop="20dp"
                             android:layout_marginLeft="10dp" />
 
@@ -84,7 +84,7 @@
                             android:layout_height="150dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/furniture" />
 
                         <TextView
                             android:id="@+id/furniture"
@@ -123,7 +123,7 @@
                             android:id="@+id/appli_img"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
-                            android:src="@mipmap/ic_launcher"
+                            android:src="@drawable/appliances"
                             android:layout_marginTop="20dp"
                             android:layout_marginLeft="10dp" />
 
@@ -156,7 +156,7 @@
                             android:layout_height="150dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/vehicle" />
 
                         <TextView
                             android:id="@+id/vehicles"
@@ -198,7 +198,7 @@
                             android:layout_height="150dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="20dp"
-                            android:src="@mipmap/ic_launcher" />
+                            android:src="@drawable/costume" />
 
                         <TextView
                             android:id="@+id/costume"

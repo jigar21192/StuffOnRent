@@ -2,6 +2,8 @@ package com.example.viral.stuffonrent;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -60,24 +62,32 @@ public class UploadCostume extends AppCompatActivity implements AdapterView.OnIt
         img1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, 1);
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), 1);
             }
         });
 
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, 2);
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), 2);
             }
         });
 
         img3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, 3);
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), 3);
             }
         });
 
@@ -105,7 +115,7 @@ public class UploadCostume extends AppCompatActivity implements AdapterView.OnIt
 
                 else if (spinnervalue.equals("Select")){
 
-                    Toast.makeText(UploadCostume.this, "Please Select Vehicles Type", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UploadCostume.this, "Please Select Costume Type", Toast.LENGTH_SHORT).show();
                 }
 
                 else if(TextUtils.isEmpty(itemname)){
@@ -139,22 +149,54 @@ public class UploadCostume extends AppCompatActivity implements AdapterView.OnIt
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            photo1 = (Bitmap) data.getExtras().get("data");
-            img1.setTag("tt");
-            img1.setImageBitmap(photo1);
-        }
-        if (requestCode == 2 && resultCode == RESULT_OK) {
-            photo2 = (Bitmap) data.getExtras().get("data");
-            img2.setTag("tt");
-            img2.setImageBitmap(photo2);
-        }
-        if (requestCode == 3 && resultCode == RESULT_OK) {
-            photo3 = (Bitmap) data.getExtras().get("data");
-            img3.setTag("tt");
-            img3.setImageBitmap(photo3);
-        }
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
 
+            try {
+                //getting image from gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                //Setting image to ImageView
+                img1.setImageBitmap(bitmap);
+
+                img1.setTag("tt");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+
+            try {
+                //getting image from gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                //Setting image to ImageView
+                img2.setImageBitmap(bitmap);
+
+                img2.setTag("tt");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (requestCode == 3 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+
+            try {
+                //getting image from gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                //Setting image to ImageView
+                img3.setImageBitmap(bitmap);
+
+                img3.setTag("tt");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

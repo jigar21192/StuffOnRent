@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    String url="https://chauhanviral36.000webhostapp.com/registration.php";
     EditText et_fname;
     EditText et_lname;
     EditText et_adrs;
@@ -42,6 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
     String emailid;
     String password;
     String con_password;
+
+    String url="https://chauhanviral36.000webhostapp.com/registration.php";
 
     Matcher first_name;
     Matcher last_name;
