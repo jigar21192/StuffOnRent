@@ -29,13 +29,13 @@ class MyAdapter extends FragmentPagerAdapter {
                 Furniture_Frag furnitures = new Furniture_Frag();
                 return furnitures;
             case 2:
-                Appliances appliances = new Appliances();
+                Appliances_Frag appliances = new Appliances_Frag();
                 return appliances;
             case 3:
-                Vehicles vehicles = new Vehicles();
+                Vehicles_Frag vehicles = new Vehicles_Frag();
                 return vehicles;
             case 4:
-                Costume costume = new Costume();
+                Costume_Frag costume = new Costume_Frag();
                 return costume;
             default:
         return null;

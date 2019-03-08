@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".RegisterActivity"
+    android:background="#7bb4f1">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         app:title="Register"
+        app:titleTextColor="#ede9e9"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary" />
@@ -26,7 +28,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
-            android:layout_marginTop="60dp">
+            android:layout_marginTop="70dp">
 
 
             <android.support.design.widget.TextInputLayout
@@ -136,6 +138,5 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"/>
-
 
 </RelativeLayout>

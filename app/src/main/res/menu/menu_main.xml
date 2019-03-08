@@ -5,10 +5,10 @@
 
     <item  android:id="@+id/uploaditem"
         android:title="Upload Item"/>
-    <item  android:id="@+id/item2"
-        android:title="Item 2"/>
-    <item  android:id="@+id/item3"
-        android:title="Item 3"
+    <item  android:id="@+id/tnc"
+        android:title="Terms And Conditions"/>
+    <item  android:id="@+id/lgot"
+        android:title="Log Out"
         app:showAsAction="withText"/>
 
 </menu>

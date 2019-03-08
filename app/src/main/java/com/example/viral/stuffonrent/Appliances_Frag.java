@@ -35,17 +35,17 @@ import java.util.List;
  * Use the {@link Packages_Frag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Furniture_Frag extends Fragment {
+public class Appliances_Frag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    RecyclerView rec_furniture;
+    RecyclerView rec_appliances;
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String image1,image2,image3,f_name,f_rent,f_city,f_description;;
-    String URL="https://chauhanviral36.000webhostapp.com/getdata_furniture.php";
+    String image1,image2,image3,a_name,a_rent,a_company_name,a_city,a_description;
+    String URL="https://chauhanviral36.000webhostapp.com/getdata_appliances.php";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -53,7 +53,7 @@ public class Furniture_Frag extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Furniture_Frag() {
+    public Appliances_Frag() {
         // Required empty public constructor
     }
 
@@ -89,10 +89,10 @@ public class Furniture_Frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_furniture, container, false);
+        View view =inflater.inflate(R.layout.fragment_appliances, container, false);
         list=new ArrayList<>();
 
-        rec_furniture=view.findViewById(R.id.rec_furniture);
+        rec_appliances=view.findViewById(R.id.rec_appliances);
 
         StringRequest request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
@@ -107,32 +107,33 @@ public class Furniture_Frag extends Fragment {
                         image1=obj.getString("image1");
                         image2=obj.getString("image2");
                         image3=obj.getString("image3");
-                        f_name=obj.getString("f_name");
-                        f_rent=obj.getString("f_rent");
-                        f_city=obj.getString("f_city");
-                        f_description=obj.getString("f_description");
+                        a_name=obj.getString("a_name");
+                        a_rent=obj.getString("a_rent");
+                        a_company_name=obj.getString("a_company_name");
+                        a_city=obj.getString("a_city");
+                        a_description=obj.getString("a_description");
 
                         Model_item model=new Model_item();
                         model.setImage1(image1);
                         model.setImage2(image2);
                         model.setImage3(image3);
-                        model.setF_name(f_name);
-                        model.setF_rent(f_rent);
-                        model.setF_city(f_city);
-                        model.setF_description(f_description);
-                        model.setTag("fur");
-
+                        model.setA_name(a_name);
+                        model.setA_rent(a_rent);
+                        model.setA_company_name(a_company_name);
+                        model.setA_city(a_city);
+                        model.setA_description(a_description);
+                        model.setTag("appl");
 
                         list.add(model);
 
                     }
 
                     adapter = new Item_Adapter(list,context);
-                    rec_furniture.setHasFixedSize(true);
+                    rec_appliances.setHasFixedSize(true);
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-                    rec_furniture.setLayoutManager(mLayoutManager);
-                    rec_furniture.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-                    rec_furniture.setAdapter(adapter);
+                    rec_appliances.setLayoutManager(mLayoutManager);
+                    rec_appliances.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+                    rec_appliances.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

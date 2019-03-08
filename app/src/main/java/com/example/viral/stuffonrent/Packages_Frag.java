@@ -44,8 +44,8 @@ public class Packages_Frag extends Fragment {
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String id,name,image;
-    String URL="https://api.androidhive.info/json/movies.json";
+    String image1,image2,image3,p_name,p_rent,p_city,p_description;
+    String URL="https://chauhanviral36.000webhostapp.com/getdata_packages.php";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -104,14 +104,23 @@ public class Packages_Frag extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                         JSONObject obj = array.getJSONObject(i);
 
-                       name=obj.getString("title");
-                            image=obj.getString("image");
-
-                            Log.e("Res",">>>>>"+image);
+                        image1=obj.getString("image1");
+                        image2=obj.getString("image2");
+                        image3=obj.getString("image3");
+                        p_name=obj.getString("p_name");
+                        p_rent=obj.getString("p_rent");
+                        p_city=obj.getString("p_city");
+                        p_description=obj.getString("p_description");
 
                             Model_item model=new Model_item();
-                            model.setImage(image);
-                            model.setName(name);
+                            model.setImage1(image1);
+                            model.setImage2(image2);
+                            model.setImage3(image3);
+                            model.setP_name(p_name);
+                            model.setP_rent(p_rent);
+                            model.setP_city(p_city);
+                            model.setP_description(p_description);
+                            model.setTag("pac");
 
                             list.add(model);
 

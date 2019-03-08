@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -20,7 +21,7 @@ public class Item_Adapter extends RecyclerView.Adapter<Item_Adapter.MyViewHolder
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, year, genre;
+        public TextView name, rent, location;
         ImageView imageView;
 
 
@@ -28,9 +29,9 @@ public class Item_Adapter extends RecyclerView.Adapter<Item_Adapter.MyViewHolder
             super(view);
 
             imageView=(ImageView)view.findViewById(R.id.img) ;
-            year=(TextView) view.findViewById(R.id.year);
-            genre=(TextView) view.findViewById(R.id.genre);
-
+            name=(TextView) view.findViewById(R.id.name);
+            rent=(TextView) view.findViewById(R.id.rent);
+            location=(TextView) view.findViewById(R.id.location);
         }
 
     }
@@ -47,16 +48,70 @@ public class Item_Adapter extends RecyclerView.Adapter<Item_Adapter.MyViewHolder
     }
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Model_item model_package=model.get(position);
-        holder.genre.setText(model_package.getName());
-        if( context!= null ){
-            Glide.with(context)
-                    .load(model_package.getImage())
+        Model_item model_item=model.get(position);
 
-                    .into(holder.imageView);
+        if (model_item.getTag().equals("pac")) {
+            holder.name.setText(model_item.getP_name());
+            holder.rent.setText(model_item.getP_rent());
+            holder.location.setText(model_item.getP_city());
+            if (context != null) {
+                Glide.with(context)
+                        .load(model_item.getImage1())
+
+                        .into(holder.imageView);
+            }
         }
+        else if (model_item.getTag().equals("fur")){
+            holder.name.setText(model_item.getF_name());
+            holder.rent.setText(model_item.getF_rent());
+            holder.location.setText(model_item.getF_city());
+            if (context != null) {
+                Glide.with(context)
+                        .load(model_item.getImage1())
 
+                        .into(holder.imageView);
+            }
+        }
+        else if (model_item.getTag().equals("appl")){
 
+            holder.name.setText(model_item.getA_name());
+            holder.rent.setText(model_item.getA_rent());
+            holder.location.setText(model_item.getA_city());
+            if (context != null) {
+                Glide.with(context)
+                        .load(model_item.getImage1())
+
+                        .into(holder.imageView);
+            }
+        }
+        else if (model_item.getTag().equals("vehi")){
+
+            holder.name.setText(model_item.getV_name());
+            holder.rent.setText(model_item.getV_rent());
+            holder.location.setText(model_item.getV_city());
+            if (context != null) {
+                Glide.with(context)
+                        .load(model_item.getImage1())
+
+                        .into(holder.imageView);
+            }
+        }
+        else if (model_item.getTag().equals("cos")){
+
+            holder.name.setText(model_item.getC_name());
+            holder.rent.setText(model_item.getC_rent());
+            holder.location.setText(model_item.getC_city());
+            if (context != null) {
+                Glide.with(context)
+                        .load(model_item.getImage1())
+
+                        .into(holder.imageView);
+            }
+        }
+        else {
+
+            Toast.makeText(context, "Prosuct Not Available", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

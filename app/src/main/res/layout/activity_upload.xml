@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="#7bb4f1"
     tools:context=".Upload">
 
     <LinearLayout
@@ -15,6 +16,7 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             app:title="Upload Items"
+            app:titleTextColor="#ede9e9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary" />
@@ -51,7 +53,7 @@
                             android:id="@+id/pac_img"
                             android:layout_width="150dp"
                             android:layout_height="150dp"
-                            android:src="@drawable/combo"
+                            android:src="@drawable/image1"
                             android:layout_marginTop="20dp"
                             android:layout_marginLeft="10dp" />
 
@@ -84,6 +86,7 @@
                             android:layout_height="150dp"
                             android:layout_marginLeft="10dp"
                             android:layout_marginTop="20dp"
+                            android:layout_marginRight="10dp"
                             android:src="@drawable/furniture" />
 
                         <TextView

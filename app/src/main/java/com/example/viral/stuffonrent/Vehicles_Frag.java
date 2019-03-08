@@ -35,17 +35,17 @@ import java.util.List;
  * Use the {@link Packages_Frag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Furniture_Frag extends Fragment {
+public class Vehicles_Frag extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    RecyclerView rec_furniture;
+    RecyclerView rec_vehicles;
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String image1,image2,image3,f_name,f_rent,f_city,f_description;;
-    String URL="https://chauhanviral36.000webhostapp.com/getdata_furniture.php";
+    String image1,image2,image3,v_category,v_name,v_rent,v_company_name,v_city,v_description;;
+    String URL="https://chauhanviral36.000webhostapp.com/getdata_vehicles.php";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -53,7 +53,7 @@ public class Furniture_Frag extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Furniture_Frag() {
+    public Vehicles_Frag() {
         // Required empty public constructor
     }
 
@@ -89,10 +89,10 @@ public class Furniture_Frag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_furniture, container, false);
+        View view =inflater.inflate(R.layout.fragment_vehicles, container, false);
         list=new ArrayList<>();
 
-        rec_furniture=view.findViewById(R.id.rec_furniture);
+        rec_vehicles=view.findViewById(R.id.rec_vehicles);
 
         StringRequest request=new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
             @Override
@@ -107,32 +107,35 @@ public class Furniture_Frag extends Fragment {
                         image1=obj.getString("image1");
                         image2=obj.getString("image2");
                         image3=obj.getString("image3");
-                        f_name=obj.getString("f_name");
-                        f_rent=obj.getString("f_rent");
-                        f_city=obj.getString("f_city");
-                        f_description=obj.getString("f_description");
+                        v_category=obj.getString("v_category");
+                        v_name=obj.getString("v_name");
+                        v_rent=obj.getString("v_rent");
+                        v_company_name=obj.getString("v_company_name");
+                        v_city=obj.getString("v_city");
+                        v_description=obj.getString("v_description");
 
                         Model_item model=new Model_item();
                         model.setImage1(image1);
                         model.setImage2(image2);
                         model.setImage3(image3);
-                        model.setF_name(f_name);
-                        model.setF_rent(f_rent);
-                        model.setF_city(f_city);
-                        model.setF_description(f_description);
-                        model.setTag("fur");
-
+                        model.setV_category(v_category);
+                        model.setV_name(v_name);
+                        model.setV_rent(v_rent);
+                        model.setV_company_name(v_company_name);
+                        model.setV_city(v_city);
+                        model.setV_description(v_description);
+                        model.setTag("vehi");
 
                         list.add(model);
 
                     }
 
                     adapter = new Item_Adapter(list,context);
-                    rec_furniture.setHasFixedSize(true);
+                    rec_vehicles.setHasFixedSize(true);
                     RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(context);
-                    rec_furniture.setLayoutManager(mLayoutManager);
-                    rec_furniture.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-                    rec_furniture.setAdapter(adapter);
+                    rec_vehicles.setLayoutManager(mLayoutManager);
+                    rec_vehicles.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+                    rec_vehicles.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

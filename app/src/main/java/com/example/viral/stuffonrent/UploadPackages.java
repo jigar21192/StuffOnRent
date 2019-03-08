@@ -1,5 +1,6 @@
 package com.example.viral.stuffonrent;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,7 +39,11 @@ public class UploadPackages extends AppCompatActivity {
     ImageView img1;
     ImageView img2;
     ImageView img3;
+
+    ProgressDialog pd;
+
     long imagename1,imagename2,imagename3;
+
     Bitmap photo1,photo2,photo3;
 
     EditText item_name, item_price, city, item_description;
@@ -52,6 +58,10 @@ public class UploadPackages extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_packages);
+
+        pd=new ProgressDialog(UploadPackages.this);
+        pd.setMessage("Loading");
+        pd.setCancelable(false);
 
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
@@ -98,6 +108,8 @@ public class UploadPackages extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                pd.show();
+
                 itemname = item_name.getText().toString();
                 itemprice = item_price.getText().toString();
                 location = city.getText().toString();
@@ -105,24 +117,31 @@ public class UploadPackages extends AppCompatActivity {
 
                 if (img1.getTag() != "tt") {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Image Is Required", Toast.LENGTH_SHORT).show();
                 } else if (img2.getTag() != "tt") {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Image Is Required", Toast.LENGTH_SHORT).show();
                 } else if (img3.getTag() != "tt") {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Image Is Required", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(itemname)) {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Item Name Is Required", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(itemprice)) {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Item Rent Is Required", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(location)) {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Your Location Is Required", Toast.LENGTH_SHORT).show();
                 } else if (TextUtils.isEmpty(description)) {
 
+                    pd.dismiss();
                     Toast.makeText(UploadPackages.this, "Please Enter Some Description For Item", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -137,7 +156,11 @@ public class UploadPackages extends AppCompatActivity {
                                         Log.e("ResObj", ">>>>" + ss);
                                         if (ss.equals("success")) {
 
-                                            Toast.makeText(getApplicationContext(), "SuccessFully", Toast.LENGTH_SHORT).show();
+                                            pd.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Item Upload SuccessFully", Toast.LENGTH_SHORT).show();
+
+                                            Intent intent = new Intent(UploadPackages.this,HomeActivity.class);
+                                            startActivity(intent);
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -148,8 +171,9 @@ public class UploadPackages extends AppCompatActivity {
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                 Log.e("Err", ">>>>" + error);
-                                 Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                    pd.dismiss();
+                                    Toast.makeText(UploadPackages.this, "Connection Problem", Toast.LENGTH_SHORT).show();
                                 }
                             }) {
 
@@ -179,11 +203,13 @@ public class UploadPackages extends AppCompatActivity {
 
                     //adding the request to volley
                     Volley.newRequestQueue(UploadPackages.this).add(volleyMultipartRequest);
+                   volleyMultipartRequest .setRetryPolicy(new DefaultRetryPolicy(
+                            10000,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 }
             }
         });
-
-
     }
 
     public byte[] getFileDataFromDrawable1(Bitmap photo1) {
@@ -211,8 +237,8 @@ public class UploadPackages extends AppCompatActivity {
             try {
 
                 //getting image from gallery
-                imagename1 = System.currentTimeMillis();
                 photo1 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imagename1 = System.currentTimeMillis();
 
                 //Setting image to ImageView
                 img1.setImageBitmap(photo1);
@@ -229,8 +255,8 @@ public class UploadPackages extends AppCompatActivity {
             try {
 
                 //getting image from gallery
-                imagename2 = System.currentTimeMillis();
                 photo2 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imagename2 = System.currentTimeMillis();
 
                 //Setting image to ImageView
                 img2.setImageBitmap(photo2);
@@ -247,8 +273,8 @@ public class UploadPackages extends AppCompatActivity {
             try {
 
                 //getting image from gallery
-                imagename3 = System.currentTimeMillis();
                 photo3 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imagename3 = System.currentTimeMillis();
 
                 //Setting image to ImageView
                 img3.setImageBitmap(photo3);

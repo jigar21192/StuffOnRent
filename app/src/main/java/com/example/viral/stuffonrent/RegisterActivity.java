@@ -1,5 +1,6 @@
 package com.example.viral.stuffonrent;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     Button register;
 
+    ProgressDialog pd;
+
     String fname;
     String lname;
     String adrs;
@@ -58,6 +61,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         setTitle("Register");
 
+        pd=new ProgressDialog(RegisterActivity.this);
+        pd.setMessage("Loading");
+        pd.setCancelable(false);
+
         register=findViewById(R.id.register);
         et_fname=findViewById(R.id.et_fname);
         et_lname=findViewById(R.id.et_lname);
@@ -72,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                pd.show();
 
                 fname = et_fname.getText().toString();
                 lname = et_lname.getText().toString();
@@ -93,39 +101,63 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                 if (TextUtils.isEmpty(fname)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter First Name.", Toast.LENGTH_LONG).show();
                 }
                 else if (f_name == false) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Only Text allowed In First Name.", Toast.LENGTH_LONG).show();
                 }
                 else if (TextUtils.isEmpty(lname)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Last Name.", Toast.LENGTH_LONG).show();
                 }
                 else if (l_name == false) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Only Text allowed In Last Name.", Toast.LENGTH_LONG).show();
                 }
                 else if (TextUtils.isEmpty(adrs)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Address.", Toast.LENGTH_LONG).show();
                 }
                 else if (TextUtils.isEmpty(cont)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Mobile Number.", Toast.LENGTH_LONG).show();
                 }
                 else if (cont.length() != 10) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Correct Mobile Number.", Toast.LENGTH_LONG).show();
                 }
                 else if (!emailid.matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+")) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Valid Email Address.", Toast.LENGTH_SHORT).show();
                 }
                 else if (TextUtils.isEmpty(password)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Password.", Toast.LENGTH_LONG).show();
                 }
                 else if (password.length() < 5) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Enter Minimum 5 Digits password.", Toast.LENGTH_LONG).show();
                 }
                 else if (TextUtils.isEmpty(con_password)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Confirm Password.", Toast.LENGTH_LONG).show();
                 }
                 else if (!password.equals(con_password)) {
+
+                    pd.dismiss();
                     Toast.makeText(RegisterActivity.this, "Please Confirm Password.", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -136,14 +168,16 @@ public class RegisterActivity extends AppCompatActivity {
 
                             if (response.trim().equals("success")){
 
+                                pd.dismiss();
                                 Intent l = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(l);
-                                Toast.makeText(RegisterActivity.this, "Register Successfully." + fname, Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, "Register Successfully" + fname, Toast.LENGTH_LONG).show();
 
                             }
 
                             else {
 
+                                pd.dismiss();
                                 Toast.makeText(RegisterActivity.this, "Problem on Registration", Toast.LENGTH_SHORT).show();
                             }
 
@@ -153,6 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
+                            pd.dismiss();
                             Toast.makeText(RegisterActivity.this, "Connection Problem", Toast.LENGTH_SHORT).show();
 
                         }

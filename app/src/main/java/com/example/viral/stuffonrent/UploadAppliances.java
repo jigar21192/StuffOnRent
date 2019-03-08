@@ -1,5 +1,6 @@
 package com.example.viral.stuffonrent;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -7,12 +8,28 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UploadAppliances extends AppCompatActivity {
 
@@ -22,11 +39,17 @@ public class UploadAppliances extends AppCompatActivity {
     ImageView img2;
     ImageView img3;
 
+    ProgressDialog pd;
+
+    long imagename1,imagename2,imagename3;
+
     Bitmap photo1,photo2,photo3;
 
     EditText item_name, item_price, company_name, city, item_description;
 
     String itemname, itemprice, companyname, location, description;
+
+    String url="https://chauhanviral36.000webhostapp.com/insert_appliances.php";
 
     Button upload;
 
@@ -34,6 +57,10 @@ public class UploadAppliances extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_appliances);
+
+        pd=new ProgressDialog(UploadAppliances.this);
+        pd.setMessage("Loading");
+        pd.setCancelable(false);
 
         img1 = findViewById(R.id.img1);
         img2 = findViewById(R.id.img2);
@@ -82,6 +109,8 @@ public class UploadAppliances extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                pd.show();
+
                 itemname = item_name.getText().toString();
                 itemprice = item_price.getText().toString();
                 companyname = company_name.getText().toString();
@@ -90,49 +119,134 @@ public class UploadAppliances extends AppCompatActivity {
 
                 if(img1.getTag()!="tt"){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Image Is Required", Toast.LENGTH_SHORT).show();
                 }
                 else if(img2.getTag()!="tt"){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Image Is Required", Toast.LENGTH_SHORT).show();
                 }
                 else if(img3.getTag()!="tt"){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Image Is Required", Toast.LENGTH_SHORT).show();
                 }
 
                 else if(TextUtils.isEmpty(itemname)){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Item Name Is Required", Toast.LENGTH_SHORT).show();
                 }
 
                 else if(TextUtils.isEmpty(itemprice)){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Item Rent Is Required", Toast.LENGTH_SHORT).show();
                 }
 
                 else if (TextUtils.isEmpty(companyname)){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Company Name Is Required", Toast.LENGTH_SHORT).show();
                 }
 
                 else if(TextUtils.isEmpty(location)){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Your Location Is Required", Toast.LENGTH_SHORT).show();
                 }
 
                 else if(TextUtils.isEmpty(description)){
 
+                    pd.dismiss();
                     Toast.makeText(UploadAppliances.this, "Please Enter Some Description For Item", Toast.LENGTH_SHORT).show();
                 }
 
                 else {
 
-                    Toast.makeText(UploadAppliances.this, "Item Upload Successfully", Toast.LENGTH_SHORT).show();
+                    VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST,url,
+                            new Response.Listener<NetworkResponse>() {
+                                @Override
+                                public void onResponse(NetworkResponse response) {
+
+                                    try {
+                                        JSONObject obj = new JSONObject(new String(response.data));
+                                        String ss = obj.getString("success");
+                                        Log.e("ResObj", ">>>>" + ss);
+                                        if (ss.equals("success")) {
+
+                                            pd.dismiss();
+                                            Toast.makeText(getApplicationContext(), "Item Upload SuccessFully", Toast.LENGTH_SHORT).show();
+
+                                            Intent intent = new Intent(UploadAppliances.this,HomeActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                    pd.dismiss();
+                                    Toast.makeText(UploadAppliances.this, "Connection Problem", Toast.LENGTH_SHORT).show();                                }
+                            }) {
+
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<>();
+                            params.put("itemname", itemname);
+                            params.put("location", location);
+                            params.put("companyname",companyname);
+                            params.put("rent_price", itemprice);
+                            params.put("details", description);
+                            return params;
+                        }
+
+
+                        @Override
+                        protected Map<String, DataPart> getByteData() {
+                            Map<String, DataPart> params = new HashMap<>();
+                           /*  imagename1 = System.currentTimeMillis();
+                            imagename2 = System.currentTimeMillis();
+                             imagename3 = System.currentTimeMillis();*/
+                            params.put("image", new DataPart(imagename1 + ".png", getFileDataFromDrawable1(photo1)));
+                            params.put("image1", new DataPart(imagename2 + ".png", getFileDataFromDrawable2(photo2)));
+                            params.put("image2", new DataPart(imagename3 + ".png", getFileDataFromDrawable3(photo3)));
+                            return params;
+                        }
+                    };
+
+                    //adding the request to volley
+                    Volley.newRequestQueue(UploadAppliances.this).add(volleyMultipartRequest);
+                    volleyMultipartRequest .setRetryPolicy(new DefaultRetryPolicy(
+                            10000,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 }
             }
         });
 
+    }
+
+    public byte[] getFileDataFromDrawable1(Bitmap photo1) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        photo1.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+    public byte[] getFileDataFromDrawable2(Bitmap photo2) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        photo2.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+    public byte[] getFileDataFromDrawable3(Bitmap photo3) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        photo3.compress(Bitmap.CompressFormat.PNG, 20, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -141,10 +255,11 @@ public class UploadAppliances extends AppCompatActivity {
 
             try {
                 //getting image from gallery
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                photo1 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imagename1 = System.currentTimeMillis();
 
                 //Setting image to ImageView
-                img1.setImageBitmap(bitmap);
+                img1.setImageBitmap(photo1);
 
                 img1.setTag("tt");
 
@@ -157,10 +272,11 @@ public class UploadAppliances extends AppCompatActivity {
 
             try {
                 //getting image from gallery
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                photo2 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imagename2 = System.currentTimeMillis();
 
                 //Setting image to ImageView
-                img2.setImageBitmap(bitmap);
+                img2.setImageBitmap(photo2);
 
                 img2.setTag("tt");
 
@@ -173,10 +289,11 @@ public class UploadAppliances extends AppCompatActivity {
 
             try {
                 //getting image from gallery
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                photo3 = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imagename3 = System.currentTimeMillis();
 
                 //Setting image to ImageView
-                img3.setImageBitmap(bitmap);
+                img3.setImageBitmap(photo3);
 
                 img3.setTag("tt");
 

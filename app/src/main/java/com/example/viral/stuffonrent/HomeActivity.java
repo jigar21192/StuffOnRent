@@ -1,5 +1,7 @@
 package com.example.viral.stuffonrent;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Movie;
 import android.support.design.widget.TabLayout;
@@ -44,9 +46,6 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayout pagerDots;
     private int dotscount;
     private ImageView[] dots;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,18 +165,33 @@ public class HomeActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.uploaditem:
-                Intent intent = new Intent(HomeActivity.this,Upload.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(HomeActivity.this,Upload.class);
+                startActivity(intent1);
                 return true;
-            case R.id.item2:
-                Toast.makeText(getApplicationContext(),"Item 2 Selected",Toast.LENGTH_LONG).show();
+            case R.id.tnc:
+                Toast.makeText(getApplicationContext(),"Terms And Conditions Will Be Declared Soon....",Toast.LENGTH_LONG).show();
                 return true;
-            case R.id.item3:
-                Toast.makeText(getApplicationContext(),"Item 3 Selected",Toast.LENGTH_LONG).show();
+            case R.id.lgot:
+                Intent intent3 = new Intent(HomeActivity.this,LoginActivity.class);
+                startActivity(intent3);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        HomeActivity.super.onBackPressed();
+                    }
+                }).create().show();
     }
 
 }

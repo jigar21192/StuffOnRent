@@ -12,7 +12,7 @@
         android:layout_height="150dp" />
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/rent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="viral"
@@ -22,7 +22,7 @@
         android:textSize="25dp"/>
 
     <TextView
-        android:id="@+id/genre"
+        android:id="@+id/name"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -30,6 +30,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginTop="35dp"
         android:ellipsize="end"
+        android:textStyle="bold"
         android:maxLines="1"
         android:text="nikhil"
         android:textSize="25dp"
@@ -37,14 +38,14 @@
         android:layout_marginRight="15dp" />
 
     <TextView
-        android:id="@+id/year"
+        android:id="@+id/location"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/genre"
+        android:layout_alignStart="@+id/name"
         android:layout_centerVertical="true"
         android:text="tarun"
         android:textSize="25dp"
-        android:layout_alignLeft="@+id/genre" />
+        android:layout_alignLeft="@+id/name" />
 
 
 </RelativeLayout>
