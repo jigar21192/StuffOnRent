@@ -34,6 +34,7 @@ public class Upload extends AppCompatActivity {
 
                 Intent intent = new Intent(Upload.this,UploadPackages.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -43,6 +44,7 @@ public class Upload extends AppCompatActivity {
 
                 Intent intent = new Intent(Upload.this,UploadFurniture.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -52,6 +54,7 @@ public class Upload extends AppCompatActivity {
 
                 Intent intent = new Intent(Upload.this,UploadAppliances.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -61,6 +64,7 @@ public class Upload extends AppCompatActivity {
 
                 Intent intent = new Intent(Upload.this,UploadVehicles.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -70,6 +74,7 @@ public class Upload extends AppCompatActivity {
 
                 Intent intent = new Intent(Upload.this,UploadCostume.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

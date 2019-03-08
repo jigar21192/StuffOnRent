@@ -2,8 +2,10 @@ package com.example.viral.stuffonrent;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +33,13 @@ public class LoginActivity extends AppCompatActivity {
 
     ProgressDialog pd;
 
+    SharedPreferences sharedPreferences;
+
+    public static final String MyPREFERENCES = "MyPrefs" ;
+
+    public static final String ID = "id";
+    public static final String KEY_Email = "email";
+
     TextView txt_crtacc;
 
     String emailid;
@@ -50,6 +59,8 @@ public class LoginActivity extends AppCompatActivity {
         pd=new ProgressDialog(LoginActivity.this);
         pd.setMessage("Loading");
         pd.setCancelable(false);
+
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         et_emailid = findViewById(R.id.et_emailid);
         et_password = findViewById(R.id.et_password);
@@ -93,6 +104,12 @@ public class LoginActivity extends AppCompatActivity {
                             if (response.trim().equals("success")) {
 
                                 pd.dismiss();
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString(KEY_Email, emailid );
+
+
+                                editor.commit();
                                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                 startActivity(i);
                                 finish();

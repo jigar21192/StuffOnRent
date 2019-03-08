@@ -1,8 +1,10 @@
 package com.example.viral.stuffonrent;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Movie;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -47,6 +49,11 @@ public class HomeActivity extends AppCompatActivity {
     private int dotscount;
     private ImageView[] dots;
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,10 @@ public class HomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        editor = sharedPreferences.edit();
 
 
         tabLayout = findViewById(R.id.tabLayout);
@@ -172,8 +183,12 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Terms And Conditions Will Be Declared Soon....",Toast.LENGTH_LONG).show();
                 return true;
             case R.id.lgot:
+                editor.clear();
+                editor.commit();
                 Intent intent3 = new Intent(HomeActivity.this,LoginActivity.class);
                 startActivity(intent3);
+                finish();
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
