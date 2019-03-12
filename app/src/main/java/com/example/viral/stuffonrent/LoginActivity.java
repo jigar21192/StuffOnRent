@@ -101,24 +101,26 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
 
-                            if (response.trim().equals("success")) {
+                            if (response.trim().equals("password_wrong")) {
+                                pd.dismiss();
+                                Toast.makeText(LoginActivity.this, "Please Enter Correct E-mail Id or Password", Toast.LENGTH_SHORT).show();
 
+
+                            }
+                            else {
                                 pd.dismiss();
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                                 editor.putString(KEY_Email, emailid );
+                                editor.putString(ID,response);
 
 
                                 editor.commit();
                                 Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                 startActivity(i);
                                 finish();
-                            }
-                            else {
 
-                                pd.dismiss();
-                                Toast.makeText(LoginActivity.this, "Please Enter Correct E-mail Id or Password", Toast.LENGTH_SHORT).show();
-                            }
+                                }
 
                         }
                     }, new Response.ErrorListener() {

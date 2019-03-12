@@ -1,6 +1,7 @@
 package com.example.viral.stuffonrent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +46,7 @@ public class Appliances_Frag extends Fragment {
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String image1,image2,image3,a_name,a_rent,a_company_name,a_city,a_description;
+    String image1,image2,image3,a_name,a_rent,a_company_name,a_city,a_description,a_contact;
     String URL="https://chauhanviral36.000webhostapp.com/getdata_appliances.php";
 
     // TODO: Rename and change types of parameters
@@ -110,6 +112,7 @@ public class Appliances_Frag extends Fragment {
                         a_name=obj.getString("a_name");
                         a_rent=obj.getString("a_rent");
                         a_company_name=obj.getString("a_company_name");
+                        a_contact=obj.getString("mobile_number");
                         a_city=obj.getString("a_city");
                         a_description=obj.getString("a_description");
 
@@ -120,6 +123,7 @@ public class Appliances_Frag extends Fragment {
                         model.setA_name(a_name);
                         model.setA_rent(a_rent);
                         model.setA_company_name(a_company_name);
+                        model.setContact(a_contact);
                         model.setA_city(a_city);
                         model.setA_description(a_description);
                         model.setTag("appl");
@@ -134,6 +138,7 @@ public class Appliances_Frag extends Fragment {
                     rec_appliances.setLayoutManager(mLayoutManager);
                     rec_appliances.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
                     rec_appliances.setAdapter(adapter);
+                    onclick();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -153,6 +158,33 @@ public class Appliances_Frag extends Fragment {
         return view;
 
     }
+
+    private void onclick() {
+        rec_appliances.addOnItemTouchListener(new RV_Click(getActivity(),
+                rec_appliances, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                Intent intent=new Intent(context,DisplayAppli.class);
+                intent.putExtra("image1",list.get(position).getImage1());
+                intent.putExtra("image2",list.get(position).getImage2());
+                intent.putExtra("image3",list.get(position).getImage3());
+                intent.putExtra("a_name",list.get(position).getA_name());
+                intent.putExtra("a_rent",list.get(position).getA_rent());
+                intent.putExtra("a_company_name",list.get(position).getA_company_name());
+                intent.putExtra("a_city",list.get(position).getA_city());
+                intent.putExtra("mobile_number",list.get(position).getContact());
+                intent.putExtra("a_description",list.get(position).getA_description());
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Toast.makeText(getActivity(), "Long press on position :"+position,
+                        Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

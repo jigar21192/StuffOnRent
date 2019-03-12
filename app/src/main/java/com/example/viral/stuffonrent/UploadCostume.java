@@ -1,7 +1,9 @@
 package com.example.viral.stuffonrent;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -37,6 +39,10 @@ import java.util.Map;
 public class UploadCostume extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private static final int CAMERA_REQUEST = 1888;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String KEY_Email = "email";
+    public static final String ID = "id";
+    SharedPreferences sharedPreferences;
 
     ImageView img1;
     ImageView img2;
@@ -52,7 +58,7 @@ public class UploadCostume extends AppCompatActivity implements AdapterView.OnIt
 
     EditText item_name, item_price, city, item_description;
 
-    String itemname, itemprice, location, description, spinnervalue;
+    String id,itemname, itemprice, location, description, spinnervalue;
 
     String url="https://chauhanviral36.000webhostapp.com/insert_costume.php";
 
@@ -66,6 +72,8 @@ public class UploadCostume extends AppCompatActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_costume);
 
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        id= sharedPreferences.getString("id","");
         pd=new ProgressDialog(UploadCostume.this);
         pd.setMessage("Loading");
         pd.setCancelable(false);
@@ -211,6 +219,7 @@ public class UploadCostume extends AppCompatActivity implements AdapterView.OnIt
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> params = new HashMap<>();
+                            params.put("id", id);
                             params.put("itemname", itemname);
                             params.put("location", location);
                             params.put("category",spinnervalue);

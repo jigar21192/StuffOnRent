@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Movie;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -39,16 +40,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
+    Timer timer;
     ViewPager viewPager;
     ViewPager viewPagerImage;
     LinearLayout pagerDots;
     private int dotscount;
     private ImageView[] dots;
-
+    private int currentPage = 0;
     public static final String MyPREFERENCES = "MyPrefs" ;
 
     SharedPreferences sharedPreferences;
@@ -75,6 +79,8 @@ public class HomeActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapterView = new ViewPagerAdapter(this);
         viewPagerImage.setAdapter(adapterView);
+        setupAutoPager();
+
 
         viewPagerImage.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -97,6 +103,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
 
         dotscount = adapterView.getCount();
         dots = new ImageView[dotscount];
@@ -164,6 +171,39 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void setupAutoPager() {
+        final Handler handler = new Handler();
+
+        final Runnable update = new Runnable() {
+            public void run()
+            {
+
+                viewPagerImage.setCurrentItem(currentPage, true);
+                if(currentPage == Integer.MAX_VALUE)
+                {
+                    currentPage = 0;
+
+                }
+                else
+                {
+                    ++currentPage ;
+                }
+            }
+        };
+
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                handler.post(update);
+            }
+        }, 500, 5000);
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

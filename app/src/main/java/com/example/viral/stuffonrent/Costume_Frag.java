@@ -1,6 +1,7 @@
 package com.example.viral.stuffonrent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +46,7 @@ public class Costume_Frag extends Fragment {
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String image1,image2,image3,c_category,c_name,c_rent,c_city,c_description;
+    String image1,image2,image3,c_category,c_name,c_rent,c_city,c_description,c_contact;
     String URL="https://chauhanviral36.000webhostapp.com/getdada_costume.php";
 
     // TODO: Rename and change types of parameters
@@ -111,6 +113,7 @@ public class Costume_Frag extends Fragment {
                         c_name=obj.getString("c_name");
                         c_rent=obj.getString("c_rent");
                         c_city=obj.getString("c_city");
+                        c_contact=obj.getString("mobile_number");
                         c_description=obj.getString("c_description");
 
                         Model_item model=new Model_item();
@@ -121,6 +124,7 @@ public class Costume_Frag extends Fragment {
                         model.setC_name(c_name);
                         model.setC_rent(c_rent);
                         model.setC_city(c_city);
+                        model.setContact(c_contact);
                         model.setC_description(c_description);
                         model.setTag("cos");
 
@@ -135,6 +139,7 @@ public class Costume_Frag extends Fragment {
                     rec_costume.setLayoutManager(mLayoutManager);
                     rec_costume.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
                     rec_costume.setAdapter(adapter);
+                    onclick();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -154,6 +159,33 @@ public class Costume_Frag extends Fragment {
         return view;
 
     }
+
+    private void onclick() {
+        rec_costume.addOnItemTouchListener(new RV_Click(getActivity(),
+                rec_costume, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                Intent intent=new Intent(context,DisplayCostu.class);
+                intent.putExtra("image1",list.get(position).getImage1());
+                intent.putExtra("image2",list.get(position).getImage2());
+                intent.putExtra("image3",list.get(position).getImage3());
+                intent.putExtra("c_category",list.get(position).getC_category());
+                intent.putExtra("c_name",list.get(position).getC_name());
+                intent.putExtra("c_rent",list.get(position).getC_rent());
+                intent.putExtra("c_city",list.get(position).getC_city());
+                intent.putExtra("mobile_number",list.get(position).getContact());
+                intent.putExtra("c_description",list.get(position).getC_description());
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Toast.makeText(getActivity(), "Long press on position :"+position,
+                        Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

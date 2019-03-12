@@ -1,7 +1,9 @@
 package com.example.viral.stuffonrent;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -35,6 +37,10 @@ import java.util.Map;
 public class UploadPackages extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1888;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String KEY_Email = "email";
+    public static final String ID = "id";
+    SharedPreferences sharedpreferences;
 
     ImageView img1;
     ImageView img2;
@@ -48,7 +54,7 @@ public class UploadPackages extends AppCompatActivity {
 
     EditText item_name, item_price, city, item_description;
 
-    String itemname, itemprice, location, description;
+    String id,itemname, itemprice, location, description;
 
     String url="https://chauhanviral36.000webhostapp.com/insert_packages.php";
 
@@ -59,6 +65,8 @@ public class UploadPackages extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_packages);
 
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        id= sharedpreferences.getString("id","");
         pd=new ProgressDialog(UploadPackages.this);
         pd.setMessage("Loading");
         pd.setCancelable(false);
@@ -180,6 +188,7 @@ public class UploadPackages extends AppCompatActivity {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> params = new HashMap<>();
+                            params.put("id", id);
                             params.put("itemname", itemname);
                             params.put("location", location);
                             params.put("rent_price", itemprice);

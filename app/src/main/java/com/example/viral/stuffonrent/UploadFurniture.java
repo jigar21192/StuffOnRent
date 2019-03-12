@@ -1,7 +1,9 @@
 package com.example.viral.stuffonrent;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -34,6 +36,10 @@ import java.util.Map;
 public class UploadFurniture extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1888;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String KEY_Email = "email";
+    public static final String ID = "id";
+    SharedPreferences sharedpreferences;
 
     ImageView img1;
     ImageView img2;
@@ -47,16 +53,19 @@ public class UploadFurniture extends AppCompatActivity {
 
     EditText item_name, item_price, city, item_description;
 
-    String itemname, itemprice, location, description;
+    String id,itemname, itemprice, location, description;
 
     String url="https://chauhanviral36.000webhostapp.com/insert_furniture.php";
-
+    SharedPreferences sharedPreferences;
     Button upload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_furniture);
+
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        id= sharedPreferences.getString("id","");
 
         pd=new ProgressDialog(UploadFurniture.this);
         pd.setMessage("Loading");
@@ -160,14 +169,14 @@ public class UploadFurniture extends AppCompatActivity {
                             new Response.Listener<NetworkResponse>() {
                                 @Override
                                 public void onResponse(NetworkResponse response) {
-
+                                    pd.dismiss();
                                     try {
                                         JSONObject obj = new JSONObject(new String(response.data));
                                         String ss = obj.getString("success");
                                         Log.e("ResObj", ">>>>" + ss);
                                         if (ss.equals("success")) {
 
-                                            pd.dismiss();
+
                                             Toast.makeText(getApplicationContext(), "Item Upload SuccessFully", Toast.LENGTH_SHORT).show();
 
                                             Intent intent = new Intent(UploadFurniture.this,HomeActivity.class);
@@ -184,12 +193,13 @@ public class UploadFurniture extends AppCompatActivity {
                                 public void onErrorResponse(VolleyError error) {
 
                                     pd.dismiss();
-                                    Toast.makeText(UploadFurniture.this, "Connection Problem", Toast.LENGTH_SHORT).show();                                }
+                                    Toast.makeText(UploadFurniture.this, error.getMessage(), Toast.LENGTH_SHORT).show();                                }
                             }) {
 
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> params = new HashMap<>();
+                            params.put("id", id);
                             params.put("itemname", itemname);
                             params.put("location", location);
                             params.put("rent_price", itemprice);
@@ -213,10 +223,10 @@ public class UploadFurniture extends AppCompatActivity {
 
                     //adding the request to volley
                     Volley.newRequestQueue(UploadFurniture.this).add(volleyMultipartRequest);
-                    volleyMultipartRequest .setRetryPolicy(new DefaultRetryPolicy(
+                   /* volleyMultipartRequest .setRetryPolicy(new DefaultRetryPolicy(
                             10000,
                             DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));*/
                 }
             }
         });

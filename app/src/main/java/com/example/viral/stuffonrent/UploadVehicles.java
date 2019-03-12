@@ -1,7 +1,9 @@
 package com.example.viral.stuffonrent;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -38,6 +40,11 @@ import java.util.Map;
 public class UploadVehicles extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int CAMERA_REQUEST = 1888;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String KEY_Email = "email";
+    public static final String ID = "id";
+
+    SharedPreferences sharedpreferences;
 
     ImageView img1;
     ImageView img2;
@@ -53,7 +60,7 @@ public class UploadVehicles extends AppCompatActivity implements AdapterView.OnI
 
     EditText item_name, item_price, company_name, city, item_description;
 
-    String itemname, itemprice, companyname, location, description, spinnervalue;
+    String id,itemname, itemprice, companyname, location, description, spinnervalue;
 
     String url="https://chauhanviral36.000webhostapp.com/insert_vehicles.php";
 
@@ -67,6 +74,8 @@ public class UploadVehicles extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_vehicles);
 
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        id= sharedpreferences.getString("id","");
         pd=new ProgressDialog(UploadVehicles.this);
         pd.setMessage("Loading");
         pd.setCancelable(false);
@@ -220,6 +229,7 @@ public class UploadVehicles extends AppCompatActivity implements AdapterView.OnI
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
                             Map<String, String> params = new HashMap<>();
+                            params.put("id", id);
                             params.put("itemname", itemname);
                             params.put("location", location);
                             params.put("companyname",companyname);

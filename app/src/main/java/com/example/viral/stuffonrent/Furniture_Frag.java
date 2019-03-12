@@ -1,6 +1,7 @@
 package com.example.viral.stuffonrent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +46,7 @@ public class Furniture_Frag extends Fragment {
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String image1,image2,image3,f_name,f_rent,f_city,f_description;;
+    String image1,image2,image3,f_name,f_rent,f_city,f_description,f_contact;;
     String URL="https://chauhanviral36.000webhostapp.com/getdata_furniture.php";
 
     // TODO: Rename and change types of parameters
@@ -110,6 +112,7 @@ public class Furniture_Frag extends Fragment {
                         f_name=obj.getString("f_name");
                         f_rent=obj.getString("f_rent");
                         f_city=obj.getString("f_city");
+                        f_contact=obj.getString("mobile_number");
                         f_description=obj.getString("f_description");
 
                         Model_item model=new Model_item();
@@ -119,6 +122,7 @@ public class Furniture_Frag extends Fragment {
                         model.setF_name(f_name);
                         model.setF_rent(f_rent);
                         model.setF_city(f_city);
+                        model.setContact(f_contact);
                         model.setF_description(f_description);
                         model.setTag("fur");
 
@@ -133,6 +137,7 @@ public class Furniture_Frag extends Fragment {
                     rec_furniture.setLayoutManager(mLayoutManager);
                     rec_furniture.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
                     rec_furniture.setAdapter(adapter);
+                    onclick();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -152,6 +157,32 @@ public class Furniture_Frag extends Fragment {
         return view;
 
     }
+
+    private void onclick() {
+        rec_furniture.addOnItemTouchListener(new RV_Click(getActivity(),
+                rec_furniture, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                Intent intent=new Intent(context,DisplayFur.class);
+                intent.putExtra("image1",list.get(position).getImage1());
+                intent.putExtra("image2",list.get(position).getImage2());
+                intent.putExtra("image3",list.get(position).getImage3());
+                intent.putExtra("f_name",list.get(position).getF_name());
+                intent.putExtra("f_rent",list.get(position).getF_rent());
+                intent.putExtra("f_city",list.get(position).getF_city());
+                intent.putExtra("mobile_number",list.get(position).getContact());
+                intent.putExtra("f_description",list.get(position).getF_description());
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Toast.makeText(getActivity(), "Long press on position :"+position,
+                        Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

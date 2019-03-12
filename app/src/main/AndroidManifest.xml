@@ -31,7 +31,12 @@
         <activity android:name=".UploadFurniture" />
         <activity android:name=".UploadAppliances" />
         <activity android:name=".UploadVehicles" />
-        <activity android:name=".UploadCostume"></activity>
+        <activity android:name=".UploadCostume" />
+        <activity android:name=".DisplayPac" />
+        <activity android:name=".DisplayFur" />
+        <activity android:name=".DisplayAppli" />
+        <activity android:name=".DisplayVehi" />
+        <activity android:name=".DisplayCostu"></activity>
     </application>
 
 </manifest>

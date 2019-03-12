@@ -1,6 +1,7 @@
 package com.example.viral.stuffonrent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +46,7 @@ public class Vehicles_Frag extends Fragment {
     Item_Adapter adapter;
     Context context;
     List<Model_item>list;
-    String image1,image2,image3,v_category,v_name,v_rent,v_company_name,v_city,v_description;;
+    String image1,image2,image3,v_category,v_name,v_rent,v_company_name,v_city,v_description,v_contact;;
     String URL="https://chauhanviral36.000webhostapp.com/getdata_vehicles.php";
 
     // TODO: Rename and change types of parameters
@@ -111,8 +113,10 @@ public class Vehicles_Frag extends Fragment {
                         v_name=obj.getString("v_name");
                         v_rent=obj.getString("v_rent");
                         v_company_name=obj.getString("v_company_name");
+                        v_contact=obj.getString("mobile_number");
                         v_city=obj.getString("v_city");
                         v_description=obj.getString("v_description");
+
 
                         Model_item model=new Model_item();
                         model.setImage1(image1);
@@ -122,6 +126,7 @@ public class Vehicles_Frag extends Fragment {
                         model.setV_name(v_name);
                         model.setV_rent(v_rent);
                         model.setV_company_name(v_company_name);
+                        model.setContact(v_contact);
                         model.setV_city(v_city);
                         model.setV_description(v_description);
                         model.setTag("vehi");
@@ -136,6 +141,7 @@ public class Vehicles_Frag extends Fragment {
                     rec_vehicles.setLayoutManager(mLayoutManager);
                     rec_vehicles.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
                     rec_vehicles.setAdapter(adapter);
+                    onclick();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -155,6 +161,36 @@ public class Vehicles_Frag extends Fragment {
         return view;
 
     }
+
+    private void onclick() {
+        rec_vehicles.addOnItemTouchListener(new RV_Click(getActivity(),
+                rec_vehicles, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+
+                Intent intent=new Intent(context,DisplayVehi.class);
+                intent.putExtra("image1",list.get(position).getImage1());
+                intent.putExtra("image2",list.get(position).getImage2());
+                intent.putExtra("image3",list.get(position).getImage3());
+                intent.putExtra("v_category",list.get(position).getV_category());
+                intent.putExtra("v_name",list.get(position).getV_name());
+                intent.putExtra("v_rent",list.get(position).getV_rent());
+                intent.putExtra("v_company_name",list.get(position).getV_company_name());
+                intent.putExtra("v_city",list.get(position).getV_city());
+                intent.putExtra("mobile_number",list.get(position).getContact());
+                intent.putExtra("v_description",list.get(position).getV_description());
+
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Toast.makeText(getActivity(), "Long press on position :"+position,
+                        Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

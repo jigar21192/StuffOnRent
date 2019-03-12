@@ -9,6 +9,7 @@ public class Model_item {
     String p_rent;
     String p_city;
     String p_description;
+    String contact;
 
     String f_name;
     String f_rent;
@@ -35,6 +36,14 @@ public class Model_item {
     String c_description;
 
     String tag;
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
 
     public String getC_category() {
         return c_category;
